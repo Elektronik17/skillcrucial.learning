@@ -52,6 +52,7 @@ server.get('/js/variables.js', (req, res) => {
 });
 
 const getFakeUser = () => {
+  faker.locale = 'uk';
   return {
     name: faker.name.findName(),
     email: faker.internet.email(),
