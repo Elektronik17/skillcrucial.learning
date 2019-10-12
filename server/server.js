@@ -1,7 +1,8 @@
 /* eslint-disable import/no-duplicates */
 import express from 'express';
 import path from 'path';
-import cors from 'cors'
+import cors from 'cors';
+import fs from 'fs';
 import bodyParser from 'body-parser';
 import sockjs from 'sockjs';
 import faker from 'faker';
@@ -68,8 +69,26 @@ const getFakeUser = () => {
 }
 
 server.get('/api/users', (req, res) => {
-  res.json(
-    new Array(10).fill(null).map(getFakeUser)
+  const fileName = `${__dirname}/tmp/data.json`;
+  fs.readFile(
+    fileName,
+    (err, data) => {
+      if (!err) {
+        return res.json(
+          JSON.parse(data)
+        )
+      }
+      const dataGenerated = new Array(10).fill(null).map(getFakeUser)
+      return fs.writeFile(
+        fileName,
+        JSON.stringify(dataGenerated),
+        () => {
+          res.json(
+            dataGenerated
+          )
+        }
+      )
+    }
   )
 })
 
