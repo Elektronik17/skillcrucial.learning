@@ -10,6 +10,7 @@ const Dummy = () => {
     <div>
       <Head title="Hello" />
       <div> Hello World {counter} </div>
+      <img src={`/tracker/${counter}.gif`} alt="tracker" />
     </div>
   )
 }
